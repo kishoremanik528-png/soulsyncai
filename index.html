@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SoulSync AI - Your caring emotional AI companion. Chat with a friendly AI that checks in on your daily life, mood, and well-being.">
+    <title>SoulSync AI — Your Emotional Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <div class="splash-avatar-ring">
+                <div class="splash-avatar">
+                    <img src="avatar.png" alt="SoulSync AI Avatar" id="splashAvatarImg">
+                </div>
+            </div>
+            <h1 class="splash-title">SoulSync<span>AI</span></h1>
+            <p class="splash-tagline"><i>Nan Un friend maari oru AI 💛</i></p>
+            <div class="splash-loader">
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+            </div>
+        </div>
+        <div class="splash-particles" id="splashParticles"></div>
+    </div>
+
+    <!-- Main Chat App -->
+    <div class="app-container" id="appContainer">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <div class="sidebar-avatar-small">
+                        <img src="avatar.png" alt="SoulSync AI">
+                    </div>
+                    <span class="logo-text">SoulSync<span>AI</span></span>
+                </div>
+                <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">✕</button>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" id="navNewChat">
+                    <span class="nav-icon">💬</span>
+                    <span>New Chat</span>
+                </button>
+                <button class="nav-item" id="navChatHistory">
+                    <span class="nav-icon">📜</span>
+                    <span>Chat History</span>
+                </button>
+                <button class="nav-item" id="navProfile">
+                    <span class="nav-icon">👤</span>
+                    <span>My Profile</span>
+                </button>
+                <button class="nav-item" id="navMoodTracker">
+                    <span class="nav-icon">📊</span>
+                    <span>Mood Tracker</span>
+                </button>
+                <button class="nav-item" id="navSelfCare">
+                    <span class="nav-icon">🧘</span>
+                    <span>Self Care Tips</span>
+                </button>
+                <button class="nav-item" id="navAbout">
+                    <span class="nav-icon">💜</span>
+                    <span>About SoulSync</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="mood-quick">
+                    <p class="mood-quick-label">How are you now?</p>
+                    <div class="mood-emojis">
+                        <button class="mood-emoji" data-mood="happy" title="Happy">😊</button>
+                        <button class="mood-emoji" data-mood="okay" title="Okay">😐</button>
+                        <button class="mood-emoji" data-mood="sad" title="Sad">😢</button>
+                        <button class="mood-emoji" data-mood="stressed" title="Stressed">😰</button>
+                        <button class="mood-emoji" data-mood="loved" title="Loved">🥰</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Overlay for mobile sidebar -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Chat Area -->
+        <main class="chat-area">
+            <!-- Chat Header -->
+            <header class="chat-header">
+                <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+                    <span></span><span></span><span></span>
+                </button>
+                <div class="header-profile">
+                    <div class="header-avatar">
+                        <img src="avatar.png" alt="SoulSync AI">
+                        <span class="online-dot"></span>
+                    </div>
+                    <div class="header-info">
+                        <h1 class="header-name">SoulSync AI</h1>
+                        <p class="header-status">Online — Always here for you 💛</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="header-action-btn" id="themeToggle" aria-label="Toggle theme"
+                        title="Toggle Dark/Light Mode">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <button class="header-profile-btn" id="headerProfileBtn" aria-label="My Profile" title="My Profile">
+                        <div class="header-user-avatar" id="headerUserAvatar">
+                            <span class="header-avatar-emoji">🧑</span>
+                            <img src="" alt="You" id="headerUserPhoto" class="header-avatar-photo">
+                        </div>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="date-divider">
+                    <span id="chatDate">Today</span>
+                </div>
+                <!-- Messages will be injected here -->
+            </div>
+
+            <!-- Quick Replies -->
+            <div class="quick-replies" id="quickReplies">
+                <button class="quick-reply-btn" data-msg="Hey! Naan nalla iruken 😊">I'm good! 😊</button>
+                <button class="quick-reply-btn" data-msg="Seri illa da... konjam sad ah iruken 😔">Feeling sad
+                    😔</button>
+                <button class="quick-reply-btn" data-msg="Enna panra ippo?" "whatapp">What's up? 🤔</button>
+                <button class="quick-reply-btn" data-msg="Sapta achu! 🍛">Yes, I ate! 🍛</button>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <button class="emoji-btn" id="emojiBtn" aria-label="Add emoji" title="Add emoji">😊</button>
+                    <textarea class="chat-input" id="chatInput" placeholder="Enna solra? Type pannu... ✨" rows="1"
+                        aria-label="Type your message"></textarea>
+                    <button class="send-btn" id="sendBtn" aria-label="Send message" title="Send message">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+                <p class="input-hint">SoulSync AI — Un best friend forever 💜</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Emoji Picker -->
+    <div class="emoji-picker" id="emojiPicker">
+        <div class="emoji-picker-grid">
+            <button class="ep-emoji">😊</button>
+            <button class="ep-emoji">😂</button>
+            <button class="ep-emoji">🥰</button>
+            <button class="ep-emoji">😢</button>
+            <button class="ep-emoji">😔</button>
+            <button class="ep-emoji">😰</button>
+            <button class="ep-emoji">🤗</button>
+            <button class="ep-emoji">💪</button>
+            <button class="ep-emoji">❤️</button>
+            <button class="ep-emoji">💜</button>
+            <button class="ep-emoji">🔥</button>
+            <button class="ep-emoji">✨</button>
+            <button class="ep-emoji">🎉</button>
+            <button class="ep-emoji">🤔</button>
+            <button class="ep-emoji">😴</button>
+            <button class="ep-emoji">🍛</button>
+            <button class="ep-emoji">☕</button>
+            <button class="ep-emoji">🎵</button>
+            <button class="ep-emoji">📚</button>
+            <button class="ep-emoji">🌙</button>
+        </div>
+    </div>
+
+    <!-- Mood Tracker Modal -->
+    <div class="modal-overlay" id="moodModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>📊 Mood Tracker</h2>
+                <button class="modal-close" id="moodModalClose">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="mood-chart" id="moodChart">
+                    <p class="mood-empty">No mood data yet! Keep chatting and I'll track your vibes 🎵</p>
+                </div>
+                <div class="mood-history" id="moodHistory"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Self Care Modal -->
+    <div class="modal-overlay" id="selfCareModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>🧘 Self Care Tips</h2>
+                <button class="modal-close" id="selfCareModalClose">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="self-care-cards" id="selfCareCards"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal about-modal">
+            <div class="modal-header">
+                <h2>💜 About SoulSync AI</h2>
+                <button class="modal-close" id="aboutModalClose">✕</button>
+            </div>
+            <div class="modal-body about-body">
+                <div class="about-avatar-section">
+                    <div class="about-avatar">
+                        <img src="avatar.png" alt="SoulSync AI">
+                    </div>
+                    <h3>SoulSync AI</h3>
+                    <p class="about-version">v1.0 • Made with 💛</p>
+                </div>
+                <p class="about-desc">
+                    SoulSync AI is your caring emotional companion — like a best friend who checks in on you daily.
+                    It talks casually, asks about your day, checks if you've eaten, and gives emotional support when you
+                    need it most.
+                </p>
+                <div class="about-features">
+                    <div class="about-feature">
+                        <span>💬</span>
+                        <p>Natural, friendly conversations in Tanglish</p>
+                    </div>
+                    <div class="about-feature">
+                        <span>📊</span>
+                        <p>Tracks your mood over time</p>
+                    </div>
+                    <div class="about-feature">
+                        <span>🧘</span>
+                        <p>Self-care tips & emotional support</p>
+                    </div>
+                    <div class="about-feature">
+                        <span>🔒</span>
+                        <p>100% private — your data stays on your device</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal profile-modal">
+            <div class="modal-header">
+                <h2>👤 My Profile</h2>
+                <button class="modal-close" id="profileModalClose">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-photo-section">
+                    <div class="profile-photo-preview" id="profilePhotoPreview">
+                        <img src="" alt="Your Photo" id="profilePhotoImg">
+                        <div class="profile-photo-overlay" id="profilePhotoOverlay">📷 Change</div>
+                    </div>
+                    <p class="profile-photo-hint">Click to upload your photo</p>
+                </div>
+                <div class="profile-form">
+                    <label class="profile-label" for="profileNameInput">Your Name</label>
+                    <input type="text" class="profile-input" id="profileNameInput" placeholder="Enter your name..." maxlength="30">
+                    <label class="profile-label" for="profileStatusInput">Status</label>
+                    <input type="text" class="profile-input" id="profileStatusInput" placeholder="What's on your mind?..." maxlength="50">
+
+                    <!-- AI Name Customization -->
+                    <div class="ai-name-section">
+                        <label class="profile-label" for="aiNameInput">🤖 Name Your AI</label>
+                        <input type="text" class="profile-input" id="aiNameInput" placeholder="Give your AI a name..." maxlength="25">
+                        <div class="ai-name-presets">
+                            <p class="profile-label" style="margin-top: 8px;">Quick picks</p>
+                            <div class="ai-name-chips">
+                                <button class="ai-name-chip" data-name="SoulSync AI">SoulSync AI</button>
+                                <button class="ai-name-chip" data-name="Buddy">Buddy</button>
+                                <button class="ai-name-chip" data-name="Nova">Nova</button>
+                                <button class="ai-name-chip" data-name="Luna">Luna</button>
+                                <button class="ai-name-chip" data-name="Aura">Aura</button>
+                                <button class="ai-name-chip" data-name="Zen">Zen</button>
+                                <button class="ai-name-chip" data-name="Mitra">Mitra</button>
+                                <button class="ai-name-chip" data-name="Nanba">Nanba</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- AI Voice Customization -->
+                    <div class="ai-voice-section" style="margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--border-light);">
+                        <label class="profile-label" for="voiceSelect">🔊 AI Reply Voice</label>
+                        <select class="profile-input" id="voiceSelect" style="width: 100%; cursor: pointer;">
+                            <option value="default">Default Auto-Detect</option>
+                        </select>
+                    </div>
+
+                    <div class="default-avatars">
+                        <p class="profile-label">Or pick an avatar</p>
+                        <div class="avatar-options" id="avatarOptions">
+                            <button class="avatar-option" data-avatar="🧑">🧑</button>
+                            <button class="avatar-option" data-avatar="👩">👩</button>
+                            <button class="avatar-option" data-avatar="👦">👦</button>
+                            <button class="avatar-option" data-avatar="👧">👧</button>
+                            <button class="avatar-option" data-avatar="🧔">🧔</button>
+                            <button class="avatar-option" data-avatar="👩‍💻">👩‍💻</button>
+                            <button class="avatar-option" data-avatar="🧑‍🎓">🧑‍🎓</button>
+                            <button class="avatar-option" data-avatar="😎">😎</button>
+                        </div>
+                    </div>
+                    <button class="profile-save-btn" id="profileSaveBtn">💾 Save Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat History Modal -->
+    <div class="modal-overlay" id="chatHistoryModal">
+        <div class="modal chat-history-modal">
+            <div class="modal-header">
+                <h2>📜 Chat History</h2>
+                <button class="modal-close" id="chatHistoryModalClose">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="chat-history-list" id="chatHistoryList">
+                    <p class="chat-history-empty">No chat history yet! 💬<br>Start chatting and your conversations will be saved here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input for photo upload -->
+    <input type="file" id="profilePhotoInput" accept="image/*" style="display:none;">
+
+    <script src="script.js"></script>
+</body>
+
+</html>
