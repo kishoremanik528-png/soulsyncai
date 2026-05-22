@@ -460,27 +460,31 @@ function isEnglish(text) {
 async function getGeminiResponse(userText) {
     try {
         const apiUrl = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' 
-            ? 'http://127.0.0.1:5000/chat' 
-            : '/chat';
+            ? 'http://127.0.0.1:5000/api/chat' 
+            : '/api/chat';
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: userText, name: conversationState.name, aiName: getAIName() })
         });
 
-        if (!response.ok) throw new Error('Server error');
+        if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData.reply || errData.error || `Server error: ${response.status}`);
+        }
 
         const data = await response.json();
         return data.reply;
     } catch (error) {
         console.error('Gemini API error:', error);
         // Fallback English replies if API fails
-        return randomChoice([
+        const fallback = randomChoice([
             `I hear you, ${conversationState.name}! Tell me more about that 😊`,
             `That's interesting! How does that make you feel? 💛`,
             `I'm here for you! What else is on your mind? 🤗`,
             `Thanks for sharing that with me. Want to talk more about it? 💜`
         ]);
+        return `${fallback} (System Notice: Gemini API failed: ${error.message})`;
     }
 }
 

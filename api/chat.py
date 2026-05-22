@@ -18,9 +18,9 @@ def chat():
     user_message = data["message"]
     user_name = data.get("name", "friend")
 
-    prompt = f"""
-    You are SoulSyncAI, a caring emotional AI companion.
-    The user's name is {user_name}.
+        prompt = f"""
+        You are SoulSyncAI, a caring emotional AI companion.
+        The user's name is {user_name}.
 
     Rules:
     - ALWAYS reply in the SAME LANGUAGE the user writes in.
@@ -34,12 +34,22 @@ def chat():
     - Sound human, caring and friendly. Use emojis naturally.
     - Address the user by their name sometimes.
 
-    User Message:
-    {user_message}
-    """
+        User Message:
+        {user_message}
+        """
 
-    response = model.generate_content(prompt)
+        response = model.generate_content(prompt)
+        
+        if response and response.text:
+            return jsonify({
+                "reply": response.text
+            })
+        else:
+            return jsonify({
+                "reply": "I received your message, but I'm having a hard time formulating a response. Can you try again? 💛"
+            })
 
-    return jsonify({
-        "reply": response.text
-    })
+    except Exception as e:
+        return jsonify({
+            "reply": f"Oops! I had a little trouble thinking just now (Gemini API error: {str(e)}). Could you please try again or check your API key setup? 🥺"
+        }), 200
